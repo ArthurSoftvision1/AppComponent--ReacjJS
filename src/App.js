@@ -1,29 +1,17 @@
 import React from 'react'; // import react
 
 class App extends React.Component {
-constructor() {
-  super();
-  this.state = {
-    text: 'this is the state text',
-  }
-}
-  update(event) { // update text event
-    this.setState({text: event.target.value})
-  }
-
   render() {
-    return (
-      <div>
-      <h1>{this.state.text}</h1>
-      <Title update={this.update.bind(this)}/>
-      <Title update={this.update.bind(this)}/>
-      <Title update={this.update.bind(this)}/>
-      </div> 
-    )
-  }
+    return <button>I <Heart /> React</button> // inject Heart component inside App component
+  } 
 }
 
-const Title = (props) => // Title new component
-  <input type="text" onChange={props.update}/> // update props
+const Button = (props) => <button> {props.children}</button>
+
+class Heart extends React.Component { // create Heart component
+  render() { // use render method to display the span
+    return <span>&hearts;</span>
+  }
+}
 
 export default App // export App component
