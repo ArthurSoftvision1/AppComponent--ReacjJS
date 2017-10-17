@@ -2,15 +2,17 @@ import React from 'react'; // import react
 
 class App extends React.Component {
   render() {
-    return <button>I <Heart /> React</button> // inject Heart component inside App component
+    return <Subject text="1234567"/> // return Subject component with text prop
   } 
 }
 
-const Button = (props) => <button> {props.children}</button>
+const Subject = (props) => <h1>Subject: {props.text} </h1>
 
-class Heart extends React.Component { // create Heart component
-  render() { // use render method to display the span
-    return <span>&hearts;</span>
+Subject.propTypes = {
+  text(props, propName, component) {
+    if (props[propName].length < 6) { // check the length
+      return new Error(`${propName} was too short`) // drop the error message
+    }
   }
 }
 
