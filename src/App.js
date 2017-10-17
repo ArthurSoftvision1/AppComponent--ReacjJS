@@ -1,41 +1,60 @@
 import React from 'react'; // import react
-import ReactDOM from 'react-dom'; // import the react-dom
 
-class App extends React.Component {
+const HOC = (InnerComponent) => class extends React.Component {
+
   constructor() {
-    super();
-    this.state = {increasing: false} // set default state by false
+    super(); // display the context
+    this.state = {count: 0} // default state
   }
 
-  update() {
-    ReactDOM.render(
-      <App val={this.props.val+1}/>, // increase the val by 1
-      document.getElementById('root')) // root container ID
+  update() { // update by one
+    this.setState({count: this.state.count + 1})
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({increasing: nextProps.val > this.props.val})
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.val % 5 === 0; // render the val just if is multiple of 5
+  componentWillMount() {
+    console.log('will mount')
   }
 
   render() {
-    console.log(this.state.increasing) // display increasing
     return (
-      // on clock update the value
-      <button onClick={this.update.bind(this)}> 
-        {this.props.val} 
-      </button>
+      <InnerComponent 
+        {...this.props}
+        {...this.state}
+        update={this.update.bind(this)}
+      />
     )
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-      console.log(`prevProps: ${prevProps.val}`) // display previous props
   }
 }
 
-App.defaultProps = {val: 0} // default prop value
 
-export default App // export Wrapper component
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Button> button </Button>
+        <hr />
+        <LabelHOC>label</LabelHOC>
+      </div>
+    )
+  }
+}
+
+const Button = HOC((props) => 
+<button onClick={props.update}>{props.children} - {props.count}</button>)
+
+class Label extends React.Component {
+
+  componentWillMount() {
+    console.log('label will mount')
+  }
+
+  render() {
+    return (
+      <label onMouseMove={this.props.update}>{this.props.children} - {this.props.count}</label>
+    )
+  }
+}
+
+const LabelHOC = HOC(Label)
+
+export default App
