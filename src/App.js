@@ -8,7 +8,7 @@ const HOC = (InnerComponent) => class extends React.Component {
   }
 
   update() { // update by one
-    this.setState({count: this.state.count + 1})
+    this.setState({count: this.state.count + 1}) // update state by 1 on every click/mouseover
   }
 
   componentWillMount() {
@@ -18,17 +18,16 @@ const HOC = (InnerComponent) => class extends React.Component {
   render() {
     return (
       <InnerComponent 
-        {...this.props}
-        {...this.state}
-        update={this.update.bind(this)}
+        {...this.props} // set props
+        {...this.state} //set state
+        update={this.update.bind(this)} // update
       />
     )
   }
 }
 
-
 class App extends React.Component {
-  render() {
+  render() { // render App component
     return (
       <div>
         <Button> button </Button>
@@ -40,7 +39,9 @@ class App extends React.Component {
 }
 
 const Button = HOC((props) => 
-<button onClick={props.update}>{props.children} - {props.count}</button>)
+  <button onClick={props.update}>
+    {props.children} - {props.count}
+  </button>)
 
 class Label extends React.Component {
 
@@ -50,7 +51,9 @@ class Label extends React.Component {
 
   render() {
     return (
-      <label onMouseMove={this.props.update}>{this.props.children} - {this.props.count}</label>
+      <label onMouseMove={this.props.update}>
+        {this.props.children} - {this.props.count}
+      </label>
     )
   }
 }
