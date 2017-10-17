@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'; //import react library
 import App from './App'; // import App component
 
 ReactDOM.render(
-    <App />,
+    <App txt="This is the prop value"/>,
     document.getElementById('root')
 );
 
