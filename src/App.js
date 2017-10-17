@@ -1,55 +1,41 @@
 import React from 'react'; // import react
-import ReactDOM from 'react-dom';
-
+import ReactDOM from 'react-dom'; // import the react-dom
 
 class App extends React.Component {
-
   constructor() {
-    super() //to get our context
-    this.state = {val: 0} // set initial state
-    this.update = this.update.bind(this)
+    super();
+    this.state = {increasing: false} // set default state by false
   }
 
   update() {
-    this.setState({val: this.state.val + 1}) // increment the state
+    ReactDOM.render(
+      <App val={this.props.val+1}/>, // increase the val by 1
+      document.getElementById('root')) // root container ID
   }
 
-  componentWillMount() {
-    console.log('componentWillMount')
+  componentWillReceiveProps(nextProps) {
+    this.setState({increasing: nextProps.val > this.props.val})
   }
 
-  render() {
-    console.log('render');
-    return <button onClick={this.update}>{this.state.val} </button>
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount')
-  }
-
-  componentWillUnMount() {
-    console.log('componentWillUnMount')
-  }
-}
-
-class Wrapper extends React.Component {
-  mount(){
-    ReactDOM.render(<App />, document.getElementById('a'))
-  }
-  
-  unMount() {
-    ReactDOM.unmountComponentAtNode(document.getElementById('a'))
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.val % 5 === 0; // render the val just if is multiple of 5
   }
 
   render() {
+    console.log(this.state.increasing) // display increasing
     return (
-      <div>
-        <button onClick={this.mount.bind(this)}>Mount</button>
-        <button onClick={this.unMount.bind(this)}>UnMount</button>
-        <div id="a"> </div>
-      </div>
+      // on clock update the value
+      <button onClick={this.update.bind(this)}> 
+        {this.props.val} 
+      </button>
     )
   }
+
+  componentDidUpdate(prevProps, prevState) {
+      console.log(`prevProps: ${prevProps.val}`) // display previous props
+  }
 }
 
-export default Wrapper // export Wrapper component
+App.defaultProps = {val: 0} // default prop value
+
+export default App // export Wrapper component
