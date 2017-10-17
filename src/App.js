@@ -1,19 +1,37 @@
 import React from 'react'; // import react
 
 class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {currentEvent: '__'} // default state
+    this.update = this.update.bind(this)
+  }
+
+  update(event) { // update event function
+    this.setState({currentEvent: event.type})
+  }
+
   render() {
-    return <Subject text="1234567"/> // return Subject component with text prop
+    return (
+      <div>
+        <textarea
+          onKeyPress={this.update} // onKeyPress update the state
+          onCopy={this.update}
+          onCut={this.update}
+          onPaste={this.update}
+          onFocus={this.update}
+          onBlur={this.update}
+          onDoubleClick={this.update}
+          onTouchStart={this.update}
+          onTouchMove={this.update}
+          onTouchEnd={this.update}
+          cols="30"
+          rows="30" />
+          <h1>{this.state.currentEvent}</h1> 
+      </div>
+    )
   } 
 }
 
-const Subject = (props) => <h1>Subject: {props.text} </h1>
-
-Subject.propTypes = {
-  text(props, propName, component) {
-    if (props[propName].length < 6) { // check the length
-      return new Error(`${propName} was too short`) // drop the error message
-    }
-  }
-}
 
 export default App // export App component
