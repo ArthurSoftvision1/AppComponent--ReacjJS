@@ -5,21 +5,25 @@ constructor() {
   super();
   this.state = {
     text: 'this is the state text',
-    number: 0
   }
 }
-  update(event) {
+  update(event) { // update text event
     this.setState({text: event.target.value})
   }
 
   render() {
     return (
       <div>
-      <input type="text" onChange={this.update.bind(this)}/>
-        <h1>{this.state.text} - {this.state.number}</h1>
-      </div>
+      <h1>{this.state.text}</h1>
+      <Title update={this.update.bind(this)}/>
+      <Title update={this.update.bind(this)}/>
+      <Title update={this.update.bind(this)}/>
+      </div> 
     )
   }
 }
+
+const Title = (props) => // Title new component
+  <input type="text" onChange={props.update}/> // update props
 
 export default App // export App component
